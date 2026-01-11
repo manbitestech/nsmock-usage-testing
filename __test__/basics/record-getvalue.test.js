@@ -22,7 +22,8 @@ const orderParams = {
         ]
     }
 }
-const salesOrder = new Record({objData:orderParams})
+
+const salesOrder = new Record({objData: deepCopy(orderParams)});
 record._preload([salesOrder])
 
 describe("simple getValue test", () => {

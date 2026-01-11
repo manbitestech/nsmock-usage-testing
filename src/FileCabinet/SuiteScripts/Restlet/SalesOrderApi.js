@@ -27,7 +27,6 @@ define(['N/record'], (record) => {
         const salesOrderId = so.save();
         return { message: 'POST request received. SalesOrderId = ' + salesOrderId };
     };
-
    
     return {
         post,
