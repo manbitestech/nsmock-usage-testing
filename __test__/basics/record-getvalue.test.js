@@ -3,10 +3,8 @@ import { Record } from "N/record/instance"
 import record from "N/record"
 
 const orderParams = {
-    header: {
-        id: 11211,
-        type: record.Type.SALES_ORDER
-    },
+    id: 11211,
+    type: record.Type.SALES_ORDER,
     fields: {
         memo: {
             value: "Hello Furman"
