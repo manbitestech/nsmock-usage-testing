@@ -22,13 +22,25 @@ const orderParams = {
         ]
     }
 }
-
-const salesOrder = new Record({objData: Record._clone(orderParams)});
-record._preload([salesOrder])
+const merge = {
+    header: {
+        id: 11219,
+    },
+    fields: {
+        entity: {
+            value: 999329,
+            text: "The Other Bureau"
+        }
+    },
+}
+const salesOrder = new Record({objData: Record._make(orderParams)});
+const salesOrder2 = new Record({objData: Record._make(orderParams, merge)})
+record._preload([salesOrder, salesOrder2])
 
 describe("simple getValue test", () => {
     it("gets the value of 'memo' field correctly", () => {
         const order = record.load({id: 11211, type: record.Type.SALES_ORDER})
+        const order2 = record.load({id: 11219, type: record.Type.SALES_ORDER})
         const memo = order.getValue({fieldId:'memo'})
         const custId = order.getValue({fieldId: 'entity'})
         const custName = order.getText({fieldId: 'entity'})
@@ -46,6 +58,9 @@ describe("simple getValue test", () => {
         expect(order.getValue({fieldId: 'location'})).toBe(11)
         const outputId = order.save()
         expect(outputId).toBe(11211)
+
+        expect(order2.getValue({fieldId: 'memo'})).toBe('Hello Furman')
+        expect(order2.getValue({fieldId: 'entity'})).toBe(999329)
     })
 })
 

@@ -20,10 +20,8 @@ beforeAll(() => {
 describe('SalesOrderApi REST interface', () => {
     const newOrder = new Record({
         objData: {
-            header: {
-                id: 99898,
-                type: record.Type.SALES_ORDER
-            }
+            id: 99898,
+            type: record.Type.SALES_ORDER
         }
     })
     record._precreate([newOrder]);
