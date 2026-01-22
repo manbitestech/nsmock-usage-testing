@@ -1,41 +1,45 @@
 
-import { Record } from "N/record/instance"
-import record from "N/record"
-
-const orderParams = {
-    id: 11211,
-    type: record.Type.SALES_ORDER,
-    fields: {
-        memo: {
-            value: "Hello Furman"
-        },
-        entity: {
-            value: 999321,
-            text: "The Furman Bureau"
-        }
-    },
-    sublists: {
-        item: [
-            {item:{value: 2343212, text: "SP909A"}}
-        ]
-    }
-}
-const merge = {
-    header: {
-        id: 11219,
-    },
-    fields: {
-        entity: {
-            value: 999329,
-            text: "The Other Bureau"
-        }
-    },
-}
-const salesOrder = new Record({objData: Record._make(orderParams)});
-const salesOrder2 = new Record({objData: Record._make(orderParams, merge)})
-record._preload([salesOrder, salesOrder2])
+const { Record } = require('nsmock/customStubs/record/RecordInstance');
+const record = require("N/record");
 
 describe("simple getValue test", () => {
+    
+    beforeEach(() => {
+        record._clearDb()
+        const orderParams = {
+            id: 11211,
+            type: record.Type.SALES_ORDER,
+            fields: {
+                memo: {
+                    value: "Hello Furman"
+                },
+                entity: {
+                    value: 999321,
+                    text: "The Furman Bureau"
+                }
+            },
+            sublists: {
+                item: [
+                    {item:{value: 2343212, text: "SP909A"}}
+                ]
+            }
+        }
+        const merge = {
+            header: {
+                id: 11219,
+            },
+            fields: {
+                entity: {
+                    value: 999329,
+                    text: "The Other Bureau"
+                }
+            },
+        }
+        const salesOrder = new Record({objData: Record._make(orderParams)});
+        const salesOrder2 = new Record({objData: Record._make(orderParams, merge)})
+        record._preload([salesOrder, salesOrder2])
+    })
+
     it("gets the value of 'memo' field correctly", () => {
         const order = record.load({id: 11211, type: record.Type.SALES_ORDER})
         const order2 = record.load({id: 11219, type: record.Type.SALES_ORDER})
