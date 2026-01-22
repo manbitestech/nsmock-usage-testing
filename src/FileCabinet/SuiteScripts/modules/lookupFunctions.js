@@ -27,5 +27,30 @@ define(['N/search'], (search) => {
         return internalId;
     };
 
-    return { getItemInternalIdBySku };
+    /**
+     * Returns the internal ID of a customer record given their email.
+     * @param {string} email - The email to search for.
+     * @returns {number|null} The internal ID of the customer, or null if not found.
+     */
+    const getCustomerInternalIdByEmail = (email) => {
+        if (!email) return null;
+
+        const customerSearch = search.create({
+            type: search.Type.CUSTOMER,
+            filters: [
+                ['email', 'is', email]
+            ],
+            columns: ['internalid']
+        });
+
+        let internalId = null;
+        customerSearch.run().each(result => {
+            internalId = parseInt(result.getValue({ name: 'internalid' }), 10);
+            return false; // Stop after first match
+        });
+
+        return internalId;
+    };
+
+    return { getItemInternalIdBySku, getCustomerInternalIdByEmail };
 });
