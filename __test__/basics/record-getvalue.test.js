@@ -25,9 +25,7 @@ describe("simple getValue test", () => {
             }
         }
         const merge = {
-            header: {
-                id: 11219,
-            },
+            id: 11219,
             fields: {
                 entity: {
                     value: 999329,

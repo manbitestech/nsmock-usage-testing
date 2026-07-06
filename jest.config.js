@@ -8,5 +8,6 @@ module.exports = SuiteCloudJestConfiguration.build({
     verbose: true,
     testMatch: ['<rootDir>/__tests__/**/*.test.js'],
     testPathIgnorePatterns: ['/node_modules/'],
-    customStubs: nsMockConfig
+    customStubs: nsMockConfig,
+    sourcemap:true
 })

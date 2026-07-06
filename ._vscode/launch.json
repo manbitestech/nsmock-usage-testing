@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Jest Tests",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["test", "--", "--runInBand"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "sourceMaps": true
+    }
+  ]
+}
