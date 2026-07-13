@@ -1,6 +1,6 @@
-# Gemini Context: nsmock-usage-testing
+# Gemini Context: usage-testing
 
-This document provides context for the Gemini AI assistant to understand the purpose and structure of the `nsmock-usage-testing` project.
+This document provides context for the Gemini AI assistant to understand the purpose and structure of the `usage-testing` project.
 
 ## Project Purpose
 

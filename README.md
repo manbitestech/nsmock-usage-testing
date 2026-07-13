@@ -1,4 +1,4 @@
-# nsmock-usage-testing
+# usage-testing
 
 This project is a companion to the [nsmock](https://github.com/manbitestech/nsmock) unit testing framework. Its purpose is to provide a practical example of how to use `nsmock` to test NetSuite SuiteScripts in a local, offline environment.
 
@@ -14,7 +14,7 @@ To get started, clone this repository and install the dependencies:
 
 ```bash
 git clone https://github.com/manbitestech/nsmock-usage-testing.git
-cd nsmock-usage-testing
+cd usage-testing
 npm install
 ```
 
