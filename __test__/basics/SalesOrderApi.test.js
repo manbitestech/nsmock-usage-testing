@@ -17,8 +17,13 @@ describe('SalesOrderApi REST interface with nsmock stubs', () => {
         jest.clearAllMocks();
         search._clearResults();
 
-        newOrder = new Record({ objData: { id: 99898, type: record.Type.SALES_ORDER } });
-        record.create.mockReturnValue(newOrder);
+        newOrder = new Record({objData:{
+            _id: 99898,
+            type: record.Type.SALES_ORDER
+            }
+        });
+
+        record._precreate([newOrder])
 
         // Call controller functions directly on the search module object
         search._setResults('customer', [{
