@@ -3,18 +3,20 @@ const record = require('N/record');
 const search = require('N/search');
 const nsVar = require('SuiteScripts/modules/nsVar');
 const { Record } = require('nsmock/customStubs/record/RecordInstance');
+const { postInputV2, SKU_A, SKU_B } = require('./SalesOrderApi.inputs');
 
 describe('SalesOrderApi2 REST interface with nsmock stubs', () => {
     let newOrder;
     const MOCK_CUSTOMER_ID = 12345;
     const MOCK_CUSTOMER_EMAIL = 'joe@customer.com';
     const MOCK_ITEM_ID_A = 9090;
-    const MOCK_SKU_A = 'SKU-A';
+    const MOCK_SKU_A = SKU_A;
     const MOCK_ITEM_ID_B = 9191;
-    const MOCK_SKU_B = 'SKU-B';
+    const MOCK_SKU_B = SKU_B;
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        // Initialize fresh state for each test
+        record._init();
         search._clearResults();
 
         newOrder = new Record({objData:{
@@ -23,7 +25,9 @@ describe('SalesOrderApi2 REST interface with nsmock stubs', () => {
             }
         });
 
-        record._precreate([newOrder])
+        record._precreate({
+            [record.Type.SALES_ORDER]: [newOrder]
+        });
 
         search._setResults('customer', [{
             id: MOCK_CUSTOMER_ID,
@@ -35,21 +39,10 @@ describe('SalesOrderApi2 REST interface with nsmock stubs', () => {
         ]);
     });
 
-    const postInput = {
-        store_url: 'www.texasgold.com',
-        fields: {
-            memo: 'Test Memo with Lookups',
-            customer_email: MOCK_CUSTOMER_EMAIL
-        },
-        items: [
-            {sku: MOCK_SKU_A, quantity: 1, rate: 100},
-            {sku: MOCK_SKU_B, quantity: 2, rate: 50}
-        ]
-    };
-
     test('should lookup customer and items and create sales order', () => {
-        const result = salesOrderApi.post(postInput);
-        const expectedSubsidiary = nsVar.ecom_store_to_subsidiary[postInput.store_url];
+        const input = postInputV2(MOCK_CUSTOMER_EMAIL);
+        const result = salesOrderApi.post(input);
+        const expectedSubsidiary = nsVar.ecom_store_to_subsidiary[input.store_url];
 
         expect(result).toEqual({ message: 'POST request received. SalesOrderId = 99898' });
         expect(record.create).toHaveBeenCalledWith({
@@ -62,13 +55,14 @@ describe('SalesOrderApi2 REST interface with nsmock stubs', () => {
     });
 
     test('should return error if customer search returns no results', () => {
-        const badInput = { ...postInput, fields: { ...postInput.fields, customer_email: 'notfound@email.com' }};
-        const result = salesOrderApi.post(badInput);
+        const input = postInputV2('notfound@email.com');
+        const result = salesOrderApi.post(input);
         expect(result).toEqual({ error: 'NOT_FOUND', message: 'Customer not found for email: notfound@email.com' });
     });
 
     test('should return error if an item search returns no results', () => {
-        const badInput = { ...postInput, items: [{ sku: "NOT-A-SKU", quantity: 1, rate: 1 }]};
+        const baseInput = postInputV2(MOCK_CUSTOMER_EMAIL);
+        const badInput = { ...baseInput, items: [{ sku: "NOT-A-SKU", quantity: 1, rate: 1 }]};
         const result = salesOrderApi.post(badInput);
         expect(result).toEqual({ error: 'NOT_FOUND', message: 'Item not found for SKU: NOT-A-SKU' });
     });
