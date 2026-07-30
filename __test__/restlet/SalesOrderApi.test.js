@@ -53,19 +53,31 @@ describe('SalesOrderApi REST interface with nsmock stubs', () => {
         expect(newOrder.setSublistValue).toHaveBeenCalledWith({ sublistId: 'item', fieldId: 'item', line: 1, value: MOCK_ITEM_ID_B });
     });
 
-    test('should return error if customer search returns no results', () => {
+    test('should throw error if customer search returns no results', () => {
         const input = postInputV1('notfound@email.com');
-        const result = salesOrderApi.post(input);
-        expect(result).toEqual({ error: 'NOT_FOUND', message: 'Customer not found for email: notfound@email.com' });
+
+        try {
+            salesOrderApi.post(input);
+            fail('Expected error to be thrown');
+        } catch (e) {
+            expect(e.name).toBe('NOT_FOUND');
+            expect(e.message).toBe('Customer not found for email: notfound@email.com');
+        }
     });
 
-    test('should return error if an item search returns no results', () => {
+    test('should throw error if an item search returns no results', () => {
         const baseInput = postInputV1(MOCK_CUSTOMER_EMAIL);
         const badInput = {
             ...baseInput,
             sublists: { item: [{ sku: "NOT-A-SKU", quantity: 1, rate: 1 }]}
         };
-        const result = salesOrderApi.post(badInput);
-        expect(result).toEqual({ error: 'NOT_FOUND', message: 'Item not found for SKU: NOT-A-SKU' });
+
+        try {
+            salesOrderApi.post(badInput);
+            fail('Expected error to be thrown');
+        } catch (e) {
+            expect(e.name).toBe('NOT_FOUND');
+            expect(e.message).toBe('Item not found for SKU: NOT-A-SKU');
+        }
     });
 });

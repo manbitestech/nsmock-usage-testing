@@ -5,15 +5,16 @@
 
 define([
     'N/record',
+    'N/error',
     'SuiteScripts/modules/nsVar',
     'SuiteScripts/modules/lookupFunctions'
-], (record, nsVar, lookup) => {
+], (record, error, nsVar, lookup) => {
 
     const post = (context) => {
         // Look up the customer ID by email
         const customerId = lookup.getCustomerInternalIdByEmail(context.fields.customer_email);
         if (!customerId) {
-            return { error: 'NOT_FOUND', message: `Customer not found for email: ${context.fields.customer_email}` };
+            throw error.create({ name: 'NOT_FOUND', message: `Customer not found for email: ${context.fields.customer_email}` });
         }
 
         const so = record.create({
@@ -32,7 +33,7 @@ define([
             // Look up the item ID by SKU
             const itemId = lookup.getItemInternalIdBySku(item.sku);
             if (!itemId) {
-                return { error: 'NOT_FOUND', message: `Item not found for SKU: ${item.sku}` };
+                throw error.create({ name: 'NOT_FOUND', message: `Item not found for SKU: ${item.sku}` });
             }
 
             so.insertLine({
