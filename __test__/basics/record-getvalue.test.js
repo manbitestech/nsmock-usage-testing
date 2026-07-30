@@ -56,6 +56,8 @@ describe("simple getValue test", () => {
         expect(order.getValue({fieldId: 'memo'})).toBe('New Memo')
         order.setValue({fieldId: 'location', value: 11})
         expect(order.getValue({fieldId: 'location'})).toBe(11)
+        order.setText({fieldId: 'entity', text: 'Updated Bureau'})
+        expect(order.getText({fieldId: 'entity'})).toBe('Updated Bureau')
         const outputId = order.save()
         expect(outputId).toBe(11211)
 
