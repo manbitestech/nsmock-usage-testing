@@ -19,15 +19,10 @@ describe('SalesOrderApi REST interface with nsmock stubs', () => {
         record._init();
         search._clearResults();
 
-        newOrder = new Record({objData:{
-            _id: 99898,
-            type: record.Type.SALES_ORDER
-            }
-        });
+        record._startId(99898);
+        newOrder = Record.initType(record.Type.SALES_ORDER);
 
-        record._precreate({
-            [record.Type.SALES_ORDER]: [newOrder]
-        });
+        record._precreate(newOrder);
 
         // Call controller functions directly on the search module object
         search._setResults('customer', [{

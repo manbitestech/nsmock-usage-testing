@@ -15,7 +15,7 @@ describe('SalesOrderApi3 REST interface with customer auto-creation', () => {
     let newOrder;
     let newCustomer;
     const MOCK_CUSTOMER_ID = 12345;
-    const MOCK_NEW_CUSTOMER_ID = 55555;
+    const MOCK_NEW_CUSTOMER_ID = 555555;
     const MOCK_CUSTOMER_EMAIL = 'joe@customer.com';
     const MOCK_ITEM_ID_A = 9090;
     const MOCK_SKU_A = SKU_A;
@@ -27,26 +27,13 @@ describe('SalesOrderApi3 REST interface with customer auto-creation', () => {
         record._init();
         search._clearResults();
 
-        // Create mock records - using new object format for _precreate
-        newCustomer = new Record({objData:{
-            _id: MOCK_NEW_CUSTOMER_ID,
-            type: record.Type.CUSTOMER,
-            fields: {},
-            sublists: {
-                addressbook: []
-            }
-        }});
+        // Create mock records
+        record._startId(MOCK_NEW_CUSTOMER_ID);
+        newCustomer = Record.initType(record.Type.CUSTOMER); //id: 555555
+        newOrder = Record.initType(record.Type.SALES_ORDER); // id: 555556
 
-        newOrder = new Record({objData:{
-            _id: 99898,
-            type: record.Type.SALES_ORDER
-        }});
-
-        // New format: each type has its own array using record.Type enums
-        record._precreate({
-            [record.Type.CUSTOMER]: [newCustomer],
-            [record.Type.SALES_ORDER]: [newOrder]
-        });
+        record._precreate(newCustomer);
+        record._precreate(newOrder);
 
         // Set up search results for items
         search._setResults('item', [
@@ -58,7 +45,7 @@ describe('SalesOrderApi3 REST interface with customer auto-creation', () => {
     test('should use existing customer when email is found', () => {
         // Set up existing customer search result
         search._setResults('customer', [{
-            id: MOCK_CUSTOMER_ID,
+            id: MOCK_CUSTOMER_ID, // works. ID = 555555
             values: { internalid: MOCK_CUSTOMER_ID, email: MOCK_CUSTOMER_EMAIL }
         }]);
 
@@ -67,7 +54,7 @@ describe('SalesOrderApi3 REST interface with customer auto-creation', () => {
 
         expect(result.isNewCustomer).toBe(false);
         expect(result.customerId).toBe(MOCK_CUSTOMER_ID);
-        expect(result.message).toContain('99898');
+        expect(result.message).toContain('555556');
         expect(record.create).toHaveBeenCalledWith({
             type: record.Type.SALES_ORDER,
             isDynamic: true,
@@ -86,7 +73,7 @@ describe('SalesOrderApi3 REST interface with customer auto-creation', () => {
 
         expect(result.isNewCustomer).toBe(true);
         expect(result.customerId).toBe(MOCK_NEW_CUSTOMER_ID);
-        expect(result.message).toContain('99898');
+        expect(result.message).toContain('555556');
 
         // Verify customer was created
         expect(record.create).toHaveBeenCalledWith({

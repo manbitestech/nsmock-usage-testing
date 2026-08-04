@@ -19,15 +19,10 @@ describe('SalesOrderApi2 REST interface with nsmock stubs', () => {
         record._init();
         search._clearResults();
 
-        newOrder = new Record({objData:{
-            _id: 99898,
-            type: record.Type.SALES_ORDER
-            }
-        });
+        record._startId(99898);
+        newOrder = Record.initType(record.Type.SALES_ORDER);
 
-        record._precreate({
-            [record.Type.SALES_ORDER]: [newOrder]
-        });
+        record._precreate(newOrder);
 
         search._setResults('customer', [{
             id: MOCK_CUSTOMER_ID,
