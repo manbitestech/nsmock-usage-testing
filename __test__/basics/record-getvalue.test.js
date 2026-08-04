@@ -1,5 +1,5 @@
 
-const { Record } = require('nsmock/customStubs/record/RecordInstance');
+const Record = require('nsmock/customStubs/record/RecordInstance');
 const record = require("N/record");
 
 describe("simple getValue test", () => {

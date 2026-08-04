@@ -2,7 +2,7 @@ const salesOrderApi = require('SuiteScripts/Restlet/SalesOrderApi2');
 const record = require('N/record');
 const search = require('N/search');
 const nsVar = require('SuiteScripts/modules/nsVar');
-const { Record } = require('nsmock/customStubs/record/RecordInstance');
+const Record = require('nsmock/customStubs/record/RecordInstance');
 const { postInputV2, SKU_A, SKU_B } = require('./SalesOrderApi.inputs');
 
 describe('SalesOrderApi2 REST interface with nsmock stubs', () => {
