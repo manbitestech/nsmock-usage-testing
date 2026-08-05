@@ -16,6 +16,23 @@ define(['N/https'], function (https) {
         return JSON.parse(response.body);
     }
 
+    function fetchCustomerWithRetry(customerId) {
+        let response = https.get({
+            url: `${API_BASE}/customers/${customerId}`,
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.code !== 200) {
+            response = https.get({
+                url: `${API_BASE}/customers/${customerId}`,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        if (response.code !== 200) {
+            throw new Error(`Customer fetch failed with code ${response.code}`);
+        }
+        return JSON.parse(response.body);
+    }
+
     function createOrder(payload) {
         const response = https.post({
             url: `${API_BASE}/orders`,
@@ -30,6 +47,7 @@ define(['N/https'], function (https) {
 
     return {
         fetchCustomer: fetchCustomer,
+        fetchCustomerWithRetry: fetchCustomerWithRetry,
         createOrder: createOrder
     };
 });
