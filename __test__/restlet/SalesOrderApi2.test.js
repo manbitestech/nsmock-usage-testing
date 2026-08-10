@@ -1,4 +1,4 @@
-const salesOrderApi = require('SuiteScripts/Restlet/SalesOrderApi2');
+const salesOrderApi = require('SuiteScripts/Restlet/SalesOrderAPI2');
 const record = require('N/record');
 const search = require('N/search');
 const nsVar = require('SuiteScripts/modules/nsVar');
