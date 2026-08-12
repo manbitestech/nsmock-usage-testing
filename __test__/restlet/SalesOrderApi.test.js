@@ -2,7 +2,7 @@ const salesOrderApi = require('SuiteScripts/Restlet/SalesOrderApi');
 const record = require('N/record');
 const search = require('N/search');
 const nsVar = require('SuiteScripts/modules/nsVar');
-const Record = require('nsmock/customStubs/record/RecordInstance');
+const Record = require('@manbitestech/nsmock/customStubs/record/RecordInstance');
 const { postInputV1, SKU_A, SKU_B } = require('./SalesOrderApi.inputs');
 
 describe('SalesOrderApi REST interface with nsmock stubs', () => {
@@ -20,7 +20,7 @@ describe('SalesOrderApi REST interface with nsmock stubs', () => {
         search._clearResults();
 
         record._startId(99898);
-        newOrder = Record.initType(record.Type.SALES_ORDER);
+        newOrder = Record._initType(record.Type.SALES_ORDER);
 
         record._precreate(newOrder);
 

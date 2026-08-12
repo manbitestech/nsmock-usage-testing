@@ -2,7 +2,7 @@ const salesOrderApi = require('SuiteScripts/Restlet/SalesOrderApi3');
 const record = require('N/record');
 const search = require('N/search');
 const nsVar = require('SuiteScripts/modules/nsVar');
-const Record = require('nsmock/customStubs/record/RecordInstance');
+const Record = require('@manbitestech/nsmock/customStubs/record/RecordInstance');
 const {
     postInputV3WithNewCustomer,
     postInputV3WithExistingCustomer,
@@ -29,8 +29,8 @@ describe('SalesOrderApi3 REST interface with customer auto-creation', () => {
 
         // Create mock records
         record._startId(MOCK_NEW_CUSTOMER_ID);
-        newCustomer = Record.initType(record.Type.CUSTOMER); //id: 555555
-        newOrder = Record.initType(record.Type.SALES_ORDER); // id: 555556
+        newCustomer = Record._initType(record.Type.CUSTOMER); //id: 555555
+        newOrder = Record._initType(record.Type.SALES_ORDER); // id: 555556
 
         record._precreate(newCustomer);
         record._precreate(newOrder);

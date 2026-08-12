@@ -2,7 +2,7 @@
  * Input payloads for SalesOrder RESTlet tests (Api, Api2, Api3)
  * All exports are factory functions that return fresh deep copies
  */
-const Record = require('nsmock/customStubs/record/RecordInstance');
+const Record = require('@manbitestech/nsmock/customStubs/record/RecordInstance');
 
 // Common constants
 const STANDARD_ADDRESS = () => ({

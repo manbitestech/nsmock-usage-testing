@@ -1,4 +1,4 @@
-const Record = require('nsmock/customStubs/record/RecordInstance');
+const Record = require('@manbitestech/nsmock/customStubs/record/RecordInstance');
 const record = require("N/record");
 
 describe("record.transform integration", () => {

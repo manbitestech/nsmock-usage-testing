@@ -1,6 +1,6 @@
 
 const SuiteCloudJestConfiguration = require("@oracle/suitecloud-unit-testing")
-const nsMockConfig = require("nsmock")
+const nsMockConfig = require("@manbitestech/nsmock")
 
 module.exports = SuiteCloudJestConfiguration.build({
 	projectFolder: 'src',
